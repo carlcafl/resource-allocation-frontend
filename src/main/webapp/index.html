@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="resourceAllocationApp">
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+<script src="js/platforms.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body ng-controller="PlatformListCtrl">
+	<table>
+		<tr>
+			<td colspan="2">Buscar: <input ng-model="query"></td>
+		<tr>
+			<th>Nombre de plataforma</th>
+			<th>Nombre corto</th>
+		</tr>
+		<tr ng-repeat="platform in platforms | filter:query">
+			<td>{{platform.name}}</td>			
+			<td>{{platform.shortName}}</td>			
+		</tr>
+		<tr>
+			<td colspan="2">Total de plataformas: {{platforms.length}}</td>
+		</tr>
+	</table>
+</body>
+</html>
