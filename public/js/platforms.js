@@ -1,8 +1,8 @@
-var platformsApp = angular.module('platformsApp', []);
+angularModule.controller('PlatformListCtrl',['$scope', '$http',PlatformsController]);
 
-platformsApp.controller('PlatformListCtrl',['$scope', '$http',
-   function ($scope, $http) {
+function PlatformsController($scope, $http) {
 	$http.get(backendURL + '/platforms').success(function(data) {
 		$scope.platforms = data;
 	});
-}]);
+};
+
