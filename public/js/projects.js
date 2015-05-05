@@ -1,8 +1,8 @@
-var projectsApp = angular.module('projectsApp', []);
+angularModule.controller('ProjectListCtrl',['$scope', '$http',ProjectsController]);
 
-projectsApp.controller('ProjectListCtrl',['$scope', '$http',
-   function ($scope, $http) {
-	$http.get(backendURL + '/projects').success(function(data) {
-		$scope.projects = data;
+function ProjectsController($scope, $http) {
+	$http.get(backendURL + '/platforms').success(function(data) {
+		$scope.platforms = data;
+		alert('success!');
 	});
-}]);
+};
