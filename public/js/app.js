@@ -3,7 +3,7 @@ var backendURL = "https://sura-resource-alloc-backend.herokuapp.com/api/rest";
 var angularModule = angular.module('resourceAllocationApp', [ 'ngRoute' ])
 		.config(function($routeProvider) {
 			$routeProvider.
-			when('/#', {
+			when('/', {
 				templateUrl : '../templates/menu.html'
 			}).
 			when('/Home', {
@@ -16,6 +16,9 @@ var angularModule = angular.module('resourceAllocationApp', [ 'ngRoute' ])
 			when('/Projects', {
 				templateUrl : '../projects/list.html',
 				controller : 'ProjectListCtrl'
+			}).
+			when('/About', {
+				templateUrl : '../about.html'
 			}).
 			otherwise({
 				redirectTo: '/Home'			
