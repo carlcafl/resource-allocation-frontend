@@ -1,43 +1,26 @@
 <!DOCTYPE html>
 <html ng-app="resourceAllocationApp">
 <head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.5/angular.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.5/angular-route.min.js"></script>
-<script src="../js/app.js"></script>
-<link rel="stylesheet" href="../css/bootstrap.sura.css">
 </head>
 <body ng-controller="ProjectListCtrl">
 	<div ng-include="'../templates/menu.html'"></div>
+	<table class="table table-striped" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td><ol class="breadcrumb"><li><a href="#Home">Home</a></li><li class="active">Proyectos</li></ol></td>
+			<td align="right">Buscar: <input ng-model="query"></td>
+		</tr>
+	</table>
 	<div id="container">
 		<table cellpadding="0" cellspacing="0" border="0"
-			class="table table-striped table-bordered" id="dataTable">
-			<thead>
-				<tr>
-					<td colspan="4">Buscar: <input ng-model="query"></td>
-				</tr>
-				<tr>
-					<th>Nombre de proyecto</th>
-					<th>Plataforma</th>
-					<th>L&iacute;der</th>
-					<th>Tallaje</th>
-				</tr>
-			</thead>
+			class="table table-striped table-bordered" ng-table="projectsTable">
 			<tbody>
-				<tr ng-repeat="project in projects | filter:query">
-					<td>{{project.name}}</td>
-					<td>{{project.leaderPlatform.name}}</td>
-					<td>{{project.leadAnalyst}}</td>
-					<td>{{project.size}}</td>
+				<tr ng-repeat="project in $data | filter:query">
+					<td data-title="'Nombre de proyecto'" sortable="'name'">{{project.name}}</td>
+					<td data-title="'Plataforma'" sortable="'leaderPlatform.name'">{{project.leaderPlatform.name}}</td>
+					<td data-title="'L&iacute;der'" sortable="'leadAnalyst'">{{project.leadAnalyst}}</td>
+					<td data-title="'Tallaje'" sortable="'size'">{{project.size}}</td>
 				</tr>
 			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="4" align="right">Total de proyectos:
-						{{projects.length}}</td>
-				</tr>
-			</tfoot>
 		</table>
 	</div>
 </body>

@@ -1,42 +1,24 @@
 <!DOCTYPE html>
 <html ng-app="resourceAllocationApp">
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.5/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.5/angular-route.min.js"></script>
-<script src="../js/jquery-1.11.3.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/app.js"></script>
-<link rel="stylesheet" href="../css/bootstrap.sura.css">
 </head>
-<body ng-controller="PlatformListCtrl" id ">
+<body ng-controller="PlatformListCtrl">
 	
 	<div ng-include="'../templates/menu.html'"></div>
+	<table class="table table-striped" cellpadding="0" cellspacing="0" border="0">
+		<tr>
+			<td><ol class="breadcrumb"><li><a href="#Home">Home</a></li><li class="active">Plataformas</li></ol></td>
+			<td align="right">Buscar: <input ng-model="query"></td>
+		</tr>
+	</table>
 	<table cellpadding="0" cellspacing="0" border="0"
-			class="table table-striped table-bordered" id="dataTable">
-			<thead>
-		<tr>
-			<td colspan="4">Buscar: <input ng-model="query"></td>
+			class="table table-striped table-bordered" ng-table="platformsTable">
+		<tr ng-repeat="platform in $data | filter:query">
+			<td data-title="'Nombre corto'" sortable="'shortName'">{{platform.shortName}}</td>			
+			<td data-title="'Nombre de plataforma'" sortable="'name'">{{platform.name}}</td>			
+			<td data-title="'Direcci&oacute;n'" sortable="'department'">{{platform.department}}</td>	
+			<td data-title="'Responsable'" sortable="'owner'"><a href="mailto:{{platform.ownerEmail}}">{{platform.owner}}</a></td>		
 		</tr>
-		<tr>
-			<th>Nombre corto</th>
-			<th>Nombre de plataforma</th>
-			<th>Direcci&oacute;n</th>
-			<th>Responsable</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr ng-repeat="platform in platforms | filter:query">
-			<td>{{platform.shortName}}</td>			
-			<td>{{platform.name}}</td>			
-			<td>{{platform.department}}</td>	
-			<td><a href="mailto:{{platform.ownerEmail}}">{{platform.owner}}</a></td>		
-		</tr>
-		</tbody>
-		<tfoot>
-		<tr>
-			<td colspan="4" align="right">Total de plataformas: {{platforms.length}}</td>
-		</tr>
-		</tfoot>
 	</table>
 </body>
 </html>
