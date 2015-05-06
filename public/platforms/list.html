@@ -8,20 +8,32 @@
 </head>
 <body ng-controller="PlatformListCtrl">
 	<div ng-include="'../templates/menu.html'"></div>
-	<table>
+	<table cellpadding="0" cellspacing="0" border="0"
+			class="table table-striped table-bordered" id="dataTable">
+			<thead>
 		<tr>
-			<td colspan="2">Buscar: <input ng-model="query"></td>
+			<td colspan="4">Buscar: <input ng-model="query"></td>
+		</tr>
 		<tr>
-			<th>Nombre de plataforma</th>
 			<th>Nombre corto</th>
+			<th>Nombre de plataforma</th>
+			<th>Direcci&oacute;n</th>
+			<th>Responsable</th>
 		</tr>
+		</thead>
+		<tbody>
 		<tr ng-repeat="platform in platforms | filter:query">
-			<td>{{platform.name}}</td>			
 			<td>{{platform.shortName}}</td>			
+			<td>{{platform.name}}</td>			
+			<td>{{platform.department}}</td>	
+			<td><a href="mailto:{{platform.ownerEmail}}">{{platform.owner}}</a></td>		
 		</tr>
+		</tbody>
+		<tfoot>
 		<tr>
-			<td colspan="2">Total de plataformas: {{platforms.length}}</td>
+			<td colspan="4" align="right">Total de plataformas: {{platforms.length}}</td>
 		</tr>
+		</tfoot>
 	</table>
 </body>
 </html>
