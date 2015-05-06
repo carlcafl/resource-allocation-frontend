@@ -28,18 +28,22 @@ var angularModule = angular.module('resourceAllocationApp', [ 'ngRoute' ])
 angularModule.controller('PlatformListCtrl',['$scope', '$http',PlatformsController]);
 
 function PlatformsController($scope, $http) {
+	waitingDialog.show('Cargando...');
 	$http.get(backendURL + '/platforms'
 	).success(function(data) {			
 		$scope.platforms = data;
+		waitingDialog.hide();
 	});
 };
 
 angularModule.controller('ProjectListCtrl',['$scope', '$http',ProjectsController]);
 
 function ProjectsController($scope, $http) {
+	waitingDialog.show('Cargando...');
 	$http.get(backendURL + '/projects'
 	).success(function(data) {			
 		$scope.projects = data;
+		waitingDialog.hide();
 	});
 };
 
