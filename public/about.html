@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html ng-app="resourceAllocationApp">
 <head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.5/angular.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.5/angular-route.min.js"></script>
-<script src="../js/app.js"></script>
-<link rel="stylesheet" href="../css/bootstrap.sura.css">
 <title>Sura Resource Allocation - About</title>
 </head>
 <body>
 	<div ng-include="'../templates/menu.html'"></div>
-	<h2>Sura Resource Allocation Application</h2>
-	<h3>Acerca de...</h3>
-	<p>Esta es una aplicaci&oacute;n experimental para manejar:</p>
-	<ul>
-		<li>Gesti&oacute;n de la capacidad</li>
-		<li>Gesti&oacute;n de la demanda</li>
-	</ul>
-	<br />
-	<table border=1>
+	<table class="table table-striped" cellpadding="0" cellspacing="0"
+		border="0">
+		<tr>
+			<td><ol class="breadcrumb">
+					<li><a href="#Home">Home</a></li>
+					<li class="active">Acerca de</li>
+				</ol></td>
+		</tr>
+	</table>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Sura Resource Allocation Application -
+				Acerca de...</h3>
+		</div>
+		<div class="panel-body">
+			<p>Esta es una aplicaci&oacute;n experimental para manejar:</p>
+			<ul>
+				<li>Gesti&oacute;n de la capacidad</li>
+				<li>Gesti&oacute;n de la demanda</li>
+			</ul>
+		</div>
+	</div>
+	<table class="table table-striped" cellpadding="0" cellspacing="0"
+		border="0">
 		<tr>
 			<th colspan="3">Historial de Versiones</th>
 		</tr>
@@ -31,13 +40,19 @@
 		<tr>
 			<td>0.0.1</td>
 			<td>4 de Mayo de 2014</td>
-			<td>Primera versi&oacute;n funcional con consulta de plataformas y de
-				proyectos</td>
+			<td>Primera versi&oacute;n funcional con consulta de plataformas
+				y de proyectos</td>
 		</tr>
 		<tr>
 			<td>0.0.2</td>
 			<td>5 de Mayo de 2014</td>
-			<td>Acceso a datos de proyectos, adici&oacute;n de AngularJS y Bootstrap</td>
+			<td>Acceso a datos de proyectos, adici&oacute;n de AngularJS y
+				Bootstrap</td>
+		</tr>
+		<tr>
+			<td>0.0.3</td>
+			<td>7 de Mayo de 2014</td>
+			<td>Nueva funcionalidad de crear plataformas</td>
 		</tr>
 	</table>
 </body>

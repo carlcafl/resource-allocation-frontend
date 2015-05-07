@@ -13,6 +13,10 @@ var angularModule = angular.module('resourceAllocationApp', [ 'ngRoute', 'ngTabl
 				templateUrl : '../platforms/list.html',
 				controller : 'PlatformListCtrl'
 			}).
+			when('/NewPlatform', {
+				templateUrl : '../platforms/new_or_edit.html',
+				controller : 'NewPlatformCtrl'
+			}).
 			when('/Projects', {
 				templateUrl : '../projects/list.html',
 				controller : 'ProjectListCtrl'
@@ -77,4 +81,39 @@ angularModule.controller('ProjectListCtrl',function ProjectsController($scope, $
 		waitingDialog.hide();
 	});
 });
+
+angularModule.controller('NewPlatformCtrl',['$scope', '$http', NewPlatformController]);
+
+function NewPlatformController($scope, $http) {
+
+	$scope.create = function() {
+		$scope.submitted = true;
+		var platformJson = {
+				  shortName: $scope.shortName,
+				  name: $scope.name,
+				  department: $scope.department,
+				  owner: $scope.owner,
+				  ownerEmail: $scope.ownerEmail
+				};
+		var res = $http.post(backendURL + '/platforms',platformJson);
+		res.success(function(data, status, headers, config) {			
+				$scope.shortName = '';
+				$scope.name = '';
+				$scope.department = '';
+				$scope.owner = '';
+				$scope.ownerEmail = '';
+				$scope.submitted = false;
+				showAlert('#successMessage');
+		});
+		res.error(function(data, status, headers, config) {			
+			showAlert('#errorMessage');
+		});
+	};
+}
+
+function showAlert(alertId) {
+	$(alertId).show();
+	window.setTimeout(function() {$(alertId).hide();}, 2000);
+}
+
 
