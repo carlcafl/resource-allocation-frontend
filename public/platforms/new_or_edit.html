@@ -69,9 +69,23 @@
 				<tr>
 					<th>Talla</th>
 					<th>Capacidad requerida</th>
+				</tr>
 				<tr ng-repeat="(key,value) in capacity.capacityConfiguration | orderBy:value">
 					<td>{{key}}</td>
 					<td>{{value}}</td>
+				</tr>
+			</table>
+			<table cellpadding="0" cellspacing="0" border="0"
+				class="table table-striped table-hover table-bordered">
+				<tr>
+					<th>Nombre</th>
+					<th>Rol</th>
+					<th>Capacidad</th>
+				</tr>
+				<tr ng-repeat="teamMember in capacity.projectCapacity | orderBy:teamMemberName">
+					<td>{{teamMember.name}}</td>
+					<td>{{teamMember.role}}</td>
+					<td>{{teamMember.capacity}}</td>
 				</tr>
 			</table>
 		</div>
