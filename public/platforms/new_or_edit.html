@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-
-<body ng-controller="NewPlatformCtrl">
+<div ng-controller="NewPlatformCtrl">
 	<div ng-include="'../templates/menu.html'"></div>
 	<table class="table table-bordered" cellpadding="0" cellspacing="0"
 		border="0">
@@ -8,7 +6,7 @@
 			<td><ol class="breadcrumb">
 					<li><a href="#Home">Home</a></li>
 					<li><a href="#Platforms">Plataformas</a></li>
-					<li class="active">Nueva</li>
+					<li class="active">{{option}}</li>
 				</ol></td>
 		</tr>
 	</table>
@@ -18,47 +16,64 @@
 			aria-hidden="true">&times;</button>
 		Plataforma creada exitosamente!
 	</div>
-	<div role="alert" id="errorMessage"
-		class="alert alert-warning" style="display: none">
+	<div role="alert" id="errorMessage" class="alert alert-warning"
+		style="display: none">
 		<button type="button" class="close" data-dismiss="alert"
 			aria-hidden="true">&times;</button>
 		<strong>Error.</strong> La plataforma no pudo ser creada.
 	</div>
-	<form data-toggle="validator" role="form" class="form-group"
-		ng-submit="create()">
-		<div class="form-group">
-			<label for="shortName" class="control-label">Nombre corto</label> <input
-				type="text" class="form-control" id="shortName" name="shortName"
-				data-ng-model="shortName" placeholder="Nombre corto (p.ej. CORE)"
-				maxlength="15" required>
+	<div class="row">
+		<div class="col-sm-1">&nbsp;</div>
+		<div class="col-sm-6">
+			<form data-toggle="validator" role="form" class="form-group"
+				ng-submit="create()">
+				<div class="form-group">
+					<label for="shortName" class="control-label">Nombre corto</label> <input
+						type="text" class="form-control" id="shortName" name="shortName"
+						data-ng-model="shortName" placeholder="Nombre corto (p.ej. CORE)"
+						maxlength="15" required>
+				</div>
+				<div class="form-group">
+					<label for="name" class="control-label">Nombre</label> <input
+						type="text" class="form-control" id="name" name="name"
+						data-ng-model="name" placeholder="Nombre de la plataforma"
+						maxlength="100" required>
+				</div>
+				<div class="form-group">
+					<label for="department" class="control-label">Direcci&oacute;n</label>
+					<input type="text" class="form-control" id="department"
+						name="department" data-ng-model="department"
+						placeholder="Direcci&oacute;n de TI encargada" maxlength="50"
+						required>
+				</div>
+				<div class="form-group">
+					<label for="owner" class="control-label">Due&ntilde;o</label> <input
+						type="text" class="form-control" id="owner" name="owner"
+						data-ng-model="owner" placeholder="Encargado de la plataforma"
+						maxlength="100" required>
+				</div>
+				<div class="form-group">
+					<label for="ownerEmail" class="control-label">E-mail</label> <input
+						type="email" class="form-control" id="ownerEmail"
+						name="ownerEmail" data-ng-model="ownerEmail"
+						placeholder="E-mail del encargado de la plataforma"
+						maxlength="100" data-error="E-mail no v&aacute;lido" required>
+					<div class="help-block with-errors"></div>
+				</div>
+				<input type="submit" class="btn" value="Aceptar">
+			</form>
 		</div>
-		<div class="form-group">
-			<label for="name" class="control-label">Nombre</label> <input
-				type="text" class="form-control" id="name" name="name"
-				data-ng-model="name" placeholder="Nombre de la plataforma"
-				maxlength="100" required>
+		<div class="col-sm-4">
+			<table cellpadding="0" cellspacing="0" border="0"
+				class="table table-striped table-hover table-bordered">
+				<tr>
+					<th>Talla</th>
+					<th>Capacidad requerida</th>
+				<tr ng-repeat="(key,value) in capacity.capacityConfiguration | orderBy:value">
+					<td>{{key}}</td>
+					<td>{{value}}</td>
+				</tr>
+			</table>
 		</div>
-		<div class="form-group">
-			<label for="department" class="control-label">Direcci&oacute;n</label>
-			<input type="text" class="form-control" id="department"
-				name="department" data-ng-model="department"
-				placeholder="Direcci&oacute;n de TI encargada" maxlength="50"
-				required>
-		</div>
-		<div class="form-group">
-			<label for="owner" class="control-label">Due&ntilde;o</label> <input
-				type="text" class="form-control" id="owner" name="owner"
-				data-ng-model="owner" placeholder="Encargado de la plataforma"
-				maxlength="100" required>
-		</div>
-		<div class="form-group">
-			<label for="ownerEmail" class="control-label">E-mail</label> <input
-				type="email" class="form-control" id="ownerEmail" name="ownerEmail"
-				data-ng-model="ownerEmail"
-				placeholder="E-mail del encargado de la plataforma" maxlength="100"
-				data-error="E-mail no v&aacute;lido" required>
-			<div class="help-block with-errors"></div>
-		</div>
-		<input type="submit" class="btn" href="www.google.com" value="Aceptar">
-	</form>
-</body>
+	</div>
+</div>
