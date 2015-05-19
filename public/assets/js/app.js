@@ -59,6 +59,7 @@ angularModule.controller('PlatformListCtrl',function($scope, $http, $filter, ngT
 	});
 	
 	$scope.gotoDetail = function() {
+		waitingDialog.show('Cargando...');
 		location.href="#EditPlatform/" + this.platform.id;
 	};
 });
@@ -101,6 +102,12 @@ function NewPlatformController($scope, $http, $routeParams) {
 		$http.get(backendURL + '/platforms/' + id
 		).success(function(data) {			
 			$scope.platform = data;
+			$scope.platformId = $scope.platform.id;
+			$scope.shortName = $scope.platform.shortName;
+			$scope.name = $scope.platform.name;
+			$scope.department = $scope.platform.department;
+			$scope.owner = $scope.platform.owner;
+			$scope.ownerEmail = $scope.platform.ownerEmail;
 		});
 		$http.get(backendURL + '/platforms/' + id + '/capacity'
 		).success(function(data) {			
@@ -113,26 +120,56 @@ function NewPlatformController($scope, $http, $routeParams) {
 
 	$scope.create = function() {
 		$scope.submitted = true;
-		var platformJson = {
-				  shortName: $scope.shortName,
-				  name: $scope.name,
-				  department: $scope.department,
-				  owner: $scope.owner,
-				  ownerEmail: $scope.ownerEmail
-				};
-		var res = $http.post(backendURL + '/platforms',platformJson);
-		res.success(function(data, status, headers, config) {			
-				$scope.shortName = '';
-				$scope.name = '';
-				$scope.department = '';
-				$scope.owner = '';
-				$scope.ownerEmail = '';
-				$scope.submitted = false;
-				showAlert('#successMessage');
-		});
-		res.error(function(data, status, headers, config) {			
-			showAlert('#errorMessage');
-		});
+		if ($scope.platformId == undefined) {
+			waitingDialog.show('Cargando...');
+			var platformJson = {
+					  shortName: $scope.shortName,
+					  name: $scope.name,
+					  department: $scope.department,
+					  owner: $scope.owner,
+					  ownerEmail: $scope.ownerEmail
+					};
+			var res = $http.post(backendURL + '/platforms',platformJson);
+			res.success(function(data, status, headers, config) {			
+					$scope.shortName = '';
+					$scope.name = '';
+					$scope.department = '';
+					$scope.owner = '';
+					$scope.ownerEmail = '';
+					$scope.submitted = false;
+					showAlert('#successMessage');
+					waitingDialog.hide();
+			});
+			res.error(function(data, status, headers, config) {			
+				showAlert('#errorMessage');
+				waitingDialog.hide();
+			});
+		} else {
+			waitingDialog.show('Cargando...');
+			var platformJson = {
+					  shortName: $scope.shortName,
+					  name: $scope.name,
+					  department: $scope.department,
+					  owner: $scope.owner,
+					  ownerEmail: $scope.ownerEmail
+					};
+			var res = $http.put(backendURL + '/platforms/' + $scope.platformId,platformJson);
+			res.success(function(data, status, headers, config) {			
+//					$scope.shortName = '';
+//					$scope.name = '';
+//					$scope.department = '';
+//					$scope.owner = '';
+//					$scope.ownerEmail = '';
+					$scope.submitted = false;
+					showAlert('#successMessage');
+					waitingDialog.hide();
+			});
+			res.error(function(data, status, headers, config) {			
+				showAlert('#errorMessage');
+				alert(status);
+				waitingDialog.hide();
+			});
+		}
 	};
 }
 
