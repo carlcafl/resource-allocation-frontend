@@ -25,6 +25,10 @@ var angularModule = angular.module('resourceAllocationApp', [ 'ngRoute', 'ngTabl
 				templateUrl : '../projects/list.html',
 				controller : 'ProjectListCtrl'
 			}).
+			when('/TeamMemberAssignedCapacity/:teamMemberId/:platformId', {
+				templateUrl : '../teamMembers/assigned_capacity.html',
+				controller : 'TeamMemberACCtrl'
+			}).
 			when('/About', {
 				templateUrl : '../about.html'
 			}).
@@ -112,11 +116,23 @@ function NewPlatformController($scope, $http, $routeParams) {
 		$http.get(backendURL + '/platforms/' + id + '/capacity'
 		).success(function(data) {			
 			$scope.capacity = data;
-			waitingDialog.hide();
 		});
+		$http.get(backendURL + '/platforms/' + id + '/capacity/assigned'
+		).success(function(data) {			
+			$scope.teamMembers = data;
+			waitingDialog.hide();
+		    });
 	}
 
-	
+	$scope.getAssignedCapacity = function(memberId) {
+		var total = 0;
+	    for(var i = 0; i < $scope.teamMembers.length; i++){
+	    	if ($scope.teamMembers[i].id==memberId) {
+	    		total += ($scope.teamMembers[i].capacity);
+	    	}
+	    }
+	    return total;		
+	}
 
 	$scope.create = function() {
 		$scope.submitted = true;
@@ -171,6 +187,11 @@ function NewPlatformController($scope, $http, $routeParams) {
 			});
 		}
 	};
+	
+	$scope.viewTeamMemberDetail = function(id) {
+		alert('OK' + id);
+		$('#assignedCapacity').modal('show');
+	}
 }
 
 function showAlert(alertId) {
@@ -178,4 +199,37 @@ function showAlert(alertId) {
 	window.setTimeout(function() {$(alertId).hide();}, 2000);
 }
 
+angularModule.controller('TeamMemberACCtrl',['$scope', '$http', '$filter', 'ngTableParams', '$routeParams', TeamMemberACController]);
+
+function TeamMemberACController($scope, $http, $filter, ngTableParams, $routeParams) {
+	waitingDialog.show('Cargando...');
+	$scope.platformId = $routeParams.platformId;	
+	$http.get(backendURL + '/platforms/' + $scope.platformId
+	).success(function(data) {			
+		$scope.platform = data;
+	});
+	$http.get(backendURL + '/teamMembers/' + $routeParams.teamMemberId + '/capacity/assigned'
+	).success(function(data) {			
+		$scope.teamMembers = data;
+		$scope.teamMemberTable = new ngTableParams({
+	        page: 1,            // show first page
+	        count: data.length,          // no pagination
+	        sorting: {
+	            name: 'asc'     // initial sorting
+	        },
+	    }, {
+	    	counts: [], // hides page sizes
+	    	total: data.length, // length of data
+	        getData: function($defer, params) {
+	            // use build-in angular filter
+	            var orderedData = params.sorting() ?
+	                                $filter('orderBy')(data, params.orderBy()) :
+	                                	data;
+
+	            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+	        }
+	    });
+		waitingDialog.hide();
+	});
+}
 

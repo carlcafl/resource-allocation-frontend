@@ -80,14 +80,17 @@
 				<tr>
 					<th>Nombre</th>
 					<th>Rol</th>
-					<th>Capacidad</th>
+					<th>Capacidad M&aacute;xima</th>
+					<th>Capacidad Asignada</th>
 				</tr>
-				<tr ng-repeat="teamMember in capacity.projectCapacity | orderBy:teamMemberName">
-					<td>{{teamMember.name}}</td>
+				<tr ng-repeat="teamMember in capacity.projectCapacity">
+					<td><a href="#TeamMemberAssignedCapacity/{{teamMember.id}}/{{platformId}}">{{teamMember.name}}</a></td>
 					<td>{{teamMember.role}}</td>
 					<td>{{teamMember.capacity}}</td>
+					<td>{{getAssignedCapacity(teamMember.id)}}</td>					
 				</tr>
 			</table>
 		</div>
 	</div>
+	
 </div>
