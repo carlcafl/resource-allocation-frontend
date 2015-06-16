@@ -1,0 +1,57 @@
+<div>
+	<div ng-include="'../templates/menu.html'"></div>
+	<table class="table table-bordered" cellpadding="0" cellspacing="0"
+		border="0">
+		<tr>
+			<td><ol class="breadcrumb">
+					<li><a href="#Home">Home</a></li>
+					<li><a href="#Projects">Proyectos</a></li>
+					<li class="active">{{option}}</li>
+				</ol></td>
+		</tr>
+	</table>
+	<div role="alert" id="successMessage"
+		class="alert alert-success alert-dismissable" style="display: none">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">&times;</button>
+		Proyecto creado exitosamente!
+	</div>
+	<div role="alert" id="errorMessage" class="alert alert-warning"
+		style="display: none">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">&times;</button>
+		<strong>Error.</strong> El proyecto no pudo ser creado.
+	</div>
+	<div class="row">
+		<div class="col-sm-1">&nbsp;</div>
+		<div class="col-sm-6">
+			<form data-toggle="validator" role="form" class="form-group"
+				ng-submit="create()">
+				<div class="form-group">
+					<label for="name" class="control-label">Nombre</label> <input
+						type="text" class="form-control" id="name" name="name"
+						data-ng-model="name" placeholder="Nombre del proyecto"
+						maxlength="50" required>
+				</div>
+				<div class="form-group">
+					<label for="projectType" class="control-label">Tipo de proyecto</label> <select ng-model="projectType" ng-options="projectTypeOption.id as projectTypeOption.name for projectTypeOption in projectTypeOptions">						
+					</select>
+				</div>				
+				<div class="form-group">
+					<label for="leadAnalyst" class="control-label">L&iacute;der de TI</label> <input
+						type="text" class="form-control" id="leadAnalyst" name="leadAnalyst"
+						data-ng-model="leadAnalyst" placeholder="L&iacute;der del proyecto desde TI"
+						maxlength="50" required>
+				</div>
+				<div class="form-group">
+					<label for="leadAnalystEmail" class="control-label">E-mail del l&iacute;der de TI</label> <input
+						type="text" class="form-control" id="leadAnalystEmail" name="leadAnalystEmail"
+						data-ng-model="leadAnalystEmail" placeholder="E-mail del l&iacute;der del proyecto desde TI"
+						maxlength="50" required>
+				</div>
+				<input type="submit" class="btn" value="Aceptar">
+			</form>
+		</div>
+	</div>
+	
+</div>

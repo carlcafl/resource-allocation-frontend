@@ -1,10 +1,17 @@
 var backendURL = "https://sura-resource-alloc-backend.herokuapp.com/api/rest";
 
 var angularModule = angular.module('resourceAllocationApp', [ 'ngRoute', 'ngTable' ])
-		.config(function($routeProvider) {
+		.config(function($routeProvider, $locationProvider) {
 			$routeProvider.
 			when('/', {
-				templateUrl : '../templates/menu.html'
+			    controller : function(){
+			        window.location.replace('/Home');
+			    }, 
+			    template : "<div></div>"
+			}).
+			when('/Login', {
+				templateUrl : '../login.html',
+				controller : 'LoginCtrl'
 			}).
 			when('/Home', {
 				templateUrl : '../templates/menu.html'
@@ -25,6 +32,10 @@ var angularModule = angular.module('resourceAllocationApp', [ 'ngRoute', 'ngTabl
 				templateUrl : '../projects/list.html',
 				controller : 'ProjectListCtrl'
 			}).
+			when('/EditProject/:id', {
+				templateUrl : '../projects/new_or_edit.html',
+				controller : 'NewProjectCtrl'
+			}).
 			when('/TeamMemberAssignedCapacity/:teamMemberId/:platformId', {
 				templateUrl : '../teamMembers/assigned_capacity.html',
 				controller : 'TeamMemberACCtrl'
@@ -33,8 +44,23 @@ var angularModule = angular.module('resourceAllocationApp', [ 'ngRoute', 'ngTabl
 				templateUrl : '../about.html'
 			}).
 			otherwise({
-				redirectTo: '/Home'			
-			});
+			    controller : function(){
+			        window.location.replace('/');
+			    }, 
+			    template : "<div></div>"
+			});			
+//			if(window.history && window.history.pushState){
+//	            //$locationProvider.html5Mode(true); will cause an error $location in HTML5 mode requires a  tag to be present! Unless you set baseUrl tag after head tag like so: <head> <base href="/">
+//
+//	         // to know more about setting base URL visit: https://docs.angularjs.org/error/$location/nobase
+//
+//	         // if you don't wish to set base URL then use this
+//	         $locationProvider.html5Mode({
+//	                 enabled: true,
+//	                 requireBase: false
+//	          });
+//	        }
+
 		});
 
 angularModule.controller('PlatformListCtrl',function($scope, $http, $filter, ngTableParams) {
@@ -64,7 +90,7 @@ angularModule.controller('PlatformListCtrl',function($scope, $http, $filter, ngT
 	
 	$scope.gotoDetail = function() {
 		waitingDialog.show('Cargando...');
-		location.href="#EditPlatform/" + this.platform.id;
+		location.href="/#EditPlatform/" + this.platform.id;
 	};
 });
 
@@ -92,6 +118,11 @@ angularModule.controller('ProjectListCtrl',function ProjectsController($scope, $
 	    });
 		waitingDialog.hide();
 	});
+	
+	$scope.gotoDetail = function() {
+		waitingDialog.show('Cargando...');
+		location.href="/#EditProject/" + this.project.id;
+	};
 });
 
 angularModule.controller('NewPlatformCtrl',['$scope', '$http', '$routeParams', NewPlatformController]);
@@ -189,7 +220,7 @@ function NewPlatformController($scope, $http, $routeParams) {
 	};
 	
 	$scope.viewTeamMemberDetail = function(id) {
-		alert('OK' + id);
+		//alert('OK' + id);
 		$('#assignedCapacity').modal('show');
 	}
 }
@@ -210,7 +241,7 @@ function TeamMemberACController($scope, $http, $filter, ngTableParams, $routePar
 	});
 	$http.get(backendURL + '/teamMembers/' + $routeParams.teamMemberId + '/capacity/assigned'
 	).success(function(data) {			
-		$scope.teamMembers = data;
+		$scope.teamMembers = data;		
 		$scope.teamMemberTable = new ngTableParams({
 	        page: 1,            // show first page
 	        count: data.length,          // no pagination
@@ -233,3 +264,70 @@ function TeamMemberACController($scope, $http, $filter, ngTableParams, $routePar
 	});
 }
 
+angularModule.controller('NewProjectCtrl',['$scope', '$http', '$routeParams', NewProjectController]);
+
+function NewProjectController($scope, $http, $routeParams) {
+
+	$scope.option = 'Nueva';
+	$http.get(backendURL + '/projects/types'
+	).success(function(data) {			
+		$scope.projectTypeOptions = data;
+	});
+	var id = ($routeParams.id || "");
+	if (id!="") {
+		waitingDialog.show('Cargando...');
+		$scope.option = 'Editar';
+		$http.get(backendURL + '/projects/' + id
+		).success(function(data) {			
+			$scope.project = data;
+			$scope.name = $scope.project.name;
+			$scope.leadAnalyst = $scope.project.leadAnalyst;
+			$scope.leadAnalystEmail = $scope.project.leadAnalystEmail;
+			$scope.projectType = $scope.project.projectType.id;
+			waitingDialog.hide();
+		});
+	}
+
+//	$scope.create = function() {
+//		$scope.submitted = true;
+//		if ($scope.platformId == undefined) {
+//			waitingDialog.show('Cargando...');
+//			var projectJson = {
+//					  name: $scope.name,
+//					  projectType: $scope.projectType
+//					};
+//			var res = $http.post(backendURL + '/projects',platformJson);
+//			res.success(function(data, status, headers, config) {			
+//					$scope.shortName = '';
+//					$scope.name = '';
+//					$scope.department = '';
+//					$scope.owner = '';
+//					$scope.ownerEmail = '';
+//					$scope.submitted = false;
+//					showAlert('#successMessage');
+//					waitingDialog.hide();
+//			});
+//			res.error(function(data, status, headers, config) {			
+//				showAlert('#errorMessage');
+//				waitingDialog.hide();
+//			});
+//		} else {
+//			waitingDialog.show('Cargando...');
+//			var projectJson = {
+//					  name: $scope.name,
+//					  projectType: $scope.projectType
+//					};
+//			var res = $http.put(backendURL + '/projects/' + $scope.projectId,platformJson);
+//			res.success(function(data, status, headers, config) {			
+//					$scope.submitted = false;
+//					showAlert('#successMessage');
+//					waitingDialog.hide();
+//			});
+//			res.error(function(data, status, headers, config) {			
+//				showAlert('#errorMessage');
+//				alert(status);
+//				waitingDialog.hide();
+//			});
+//		}
+//	};
+}
