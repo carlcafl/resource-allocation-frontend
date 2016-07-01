@@ -145,7 +145,7 @@ function NewPlatformController($scope, $http, $routeParams) {
 			$scope.platformId = $scope.platform.id;
 			$scope.shortName = $scope.platform.shortName;
 			$scope.name = $scope.platform.name;
-			$scope.department = $scope.platform.department;
+			$scope.department = $scope.platform.department.id;
 			$scope.owner = $scope.platform.owner;
 			$scope.ownerEmail = $scope.platform.ownerEmail;
 		});
