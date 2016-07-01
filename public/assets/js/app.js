@@ -177,7 +177,9 @@ function NewPlatformController($scope, $http, $routeParams) {
 			var platformJson = {
 					  shortName: $scope.shortName,
 					  name: $scope.name,
-					  department: $scope.department,
+					  department: {
+				            id: $scope.department
+				      },
 					  owner: $scope.owner,
 					  ownerEmail: $scope.ownerEmail
 					};
@@ -201,8 +203,10 @@ function NewPlatformController($scope, $http, $routeParams) {
 			var platformJson = {
 					  shortName: $scope.shortName,
 					  name: $scope.name,
-					  department: $scope.department,
-					  owner: $scope.owner,
+					  department: {
+				            id: $scope.department
+				      },
+				      owner: $scope.owner,
 					  ownerEmail: $scope.ownerEmail
 					};
 			var res = $http.put(backendURL + '/platforms/' + $scope.platformId,platformJson);
