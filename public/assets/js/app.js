@@ -130,6 +130,11 @@ angularModule.controller('NewPlatformCtrl',['$scope', '$http', '$routeParams', N
 function NewPlatformController($scope, $http, $routeParams) {
 
 	$scope.option = 'Nueva';
+	//TODO: Cambiar la gerencia para que sea dinámica
+	$http.get(backendURL + '/departments/1/children'
+	).success(function(data) {			
+		$scope.departmentOptions = data;
+	});
 	var id = ($routeParams.id || "");
 	if (id!="") {
 		$scope.option = 'Editar';

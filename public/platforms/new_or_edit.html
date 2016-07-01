@@ -40,11 +40,7 @@
 						maxlength="100" required>
 				</div>
 				<div class="form-group">
-					<label for="department" class="control-label">Direcci&oacute;n</label>
-					<input type="text" class="form-control" id="department"
-						name="department" data-ng-model="department"
-						placeholder="Direcci&oacute;n de TI encargada" maxlength="50"
-						required>
+					<label for="department" class="control-label">Direcci&oacute;n de TI</label> <select ng-model="department" ng-options="departmentOption.id as departmentOption.name for departmentOptions in departmentOptions">						
 				</div>
 				<div class="form-group">
 					<label for="owner" class="control-label">Due&ntilde;o</label> <input
