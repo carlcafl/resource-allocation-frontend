@@ -42,6 +42,10 @@ app.get('/Contact', stormpath.loginRequired, function(request, response) {
 	response.redirect('/#Contact');
 });
 
+app.get('/NewPlatform', stormpath.loginRequired, function(request, response) {
+	response.redirect('/#NewPlatform');
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
